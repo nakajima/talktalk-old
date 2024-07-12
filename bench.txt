@@ -1,0 +1,5 @@
+Current fib times (7.12.2024):
+.build/release/tlk fib.tlk  8.43s user 0.00s system 99% cpu 8.457 total
+.build/release/tlk fib.tlk  6.41s user 0.00s system 99% cpu 6.446 total
+.build/release/tlk fib.tlk  6.36s user 0.00s system 99% cpu 6.385 total
+.build/release/tlk fib.tlk  6.42s user 0.00s system 99% cpu 6.460 total

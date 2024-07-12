@@ -1,0 +1,53 @@
+program        = declaration* ;
+declaration    = {IGNORE} (
+               classDecl
+               | funcDecl
+               | varDecl
+               | statement
+               ) {IGNORE};
+classDecl      = "class" IDENTIFIER ( ":" IDENTIFIER )?
+                 "{" (funcDecl)* "}" ;
+initDecl			 = "init" function ;
+funcDecl       = "func" function ;
+varDecl        = "var" IDENTIFIER ( {IGNORE} "=" {IGNORE} expression )? ;
+statement      = {IGNORE} (
+                  exprStmt
+                  | ifStmt
+                  | returnStmt
+                  | whileStmt
+                  | block
+                  )
+                 {IGNORE} ;
+exprStmt       = expression ;
+ifStmt         = "if" expression "{" statement "}"
+                 ( "else" "{" statement "}" )? ;
+returnStmt     = "return" expression? ;
+whileStmt      = "while" expression  "{" statement  "}";
+block          = "{" {IGNORE} declaration* {IGNORE} "}";
+expression     = {IGNORE} assignment {IGNORE} ;
+assignment     = ( call "." )? IDENTIFIER {IGNORE} "=" {IGNORE} assignment
+               | logic_or ;
+logic_or       = logic_and ( "||" logic_and )* ;
+logic_and      = equality ( "&&" equality )* ;
+equality       = comparison ( ( "!=" | "==" ) comparison )* ;
+comparison     = term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
+term           = factor ( ( "-" | "+" ) factor )* ;
+factor         = unary ( ( "/" | "*" ) unary )* ;
+unary          = ( "!" | "-" ) unary | call ;
+call           = primary ( "(" arguments? ")" | "." IDENTIFIER )* ;
+primary        = "true" | "false" | "nil" | "self"
+               | NUMBER | STRING | IDENTIFIER | "(" expression ")"
+               | "super" "." IDENTIFIER ;
+function       = IDENTIFIER "(" parameters? ")" block ;
+parameters     = IDENTIFIER ( "" IDENTIFIER )* ;
+arguments      = expression ( "" expression )* ;
+NUMBER         = DIGIT+ ( "." DIGIT+ )? ;
+STRING         = "\"" { any_char_except_quote } "\"";
+IDENTIFIER     = ALPHA ( ALPHA | DIGIT )* ;
+ALPHA          = #'[A-Za-z]';
+DIGIT          = #'[0-9]+';
+WHITESPACE     = #'[\s\t]+';
+NEWLINE        = #'[\n]+';
+IGNORE         = (WHITESPACE | NEWLINE | ";")*;
+
+any_char_except_quote = #'[^"]' ;

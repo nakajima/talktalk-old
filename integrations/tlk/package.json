@@ -1,0 +1,52 @@
+{
+	"name": "tlk",
+	"displayName": "TalkTalk",
+	"description": "The TalkTalk programming language",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.91.0"
+	},
+	"categories": [
+		"Programming Languages"
+	],
+	"main": "./out/extension.js",
+  "devDependencies": {
+    "@types/node": "^8.10.25",
+    "@types/vscode": "^1.51.0",
+    "tslint": "^5.16.0",
+    "typescript": "^3.4.5"
+  },
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./"
+	},
+	"contributes": {
+		"commands": [
+			{
+				"command": "helloworld.helloWorld",
+				"title": "Hello World"
+			}
+		],
+		"languages": [
+			{
+				"id": "tlk",
+				"aliases": [
+					"TalkTalk",
+					"tlk"
+				],
+				"extensions": [
+					".tlk"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "tlk",
+				"scopeName": "source.tlk",
+				"path": "./syntaxes/tlk.tmLanguage.json"
+			}
+		]
+	}
+}

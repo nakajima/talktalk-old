@@ -1,0 +1,192 @@
+{
+	"name": "TalkTalk",
+	"scopeName": "source.tlk",
+	"patterns": [
+		{ "include": "#whitespace" },
+		{ "include": "#comments" },
+		{ "include": "#classDecl" },
+		{ "include": "#funcDecl" },
+		{ "include": "#varDecl" },
+		{ "include": "#statement" },
+		{ "include": "#expression" }
+	],
+	"repository": {
+		"whitespace": {
+			"patterns": [
+				{ "match": "\\s+", "name": "whitespace" },
+				{ "match": ";", "name": "punctuation.separator.semicolon" }
+			]
+		},
+		"comments": {
+			"patterns": [{ "match": "//.*", "name": "comment.line.double-slash" }]
+		},
+		"classDecl": {
+			"begin": "\\bclass\\b",
+			"end": "\\}",
+			"name": "entity.name.type.class",
+			"patterns": [
+				{ "include": "#whitespace" },
+				{ "include": "#funcDecl" },
+				{ "match": "\\b[A-Za-z][A-Za-z0-9]*\\b", "name": "entity.name.class" },
+				{ "match": "\\:", "name": "punctuation.separator.colon" }
+			]
+		},
+		"funcDecl": {
+			"begin": "\\bfunc\\b",
+			"end": "\\}",
+			"name": "entity.name.function",
+			"patterns": [
+				{ "include": "#whitespace" },
+				{ "include": "#parameters" },
+				{ "include": "#block" },
+				{
+					"match": "\\b[A-Za-z][A-Za-z0-9]*\\b",
+					"name": "entity.name.function"
+				}
+			]
+		},
+		"varDecl": {
+			"begin": "\\bvar\\b",
+			"end": "(?=;|\\n|\\})",
+			"name": "variable.other",
+			"patterns": [
+				{ "include": "#whitespace" },
+				{ "include": "#expression" },
+				{ "match": "\\b[A-Za-z][A-Za-z0-9]*\\b", "name": "variable.other" },
+				{ "match": "=", "name": "keyword.operator.assignment" }
+			]
+		},
+		"statement": {
+			"patterns": [
+				{ "include": "#exprStmt" },
+				{ "include": "#ifStmt" },
+				{ "include": "#returnStmt" },
+				{ "include": "#whileStmt" },
+				{ "include": "#block" }
+			]
+		},
+		"exprStmt": {
+			"patterns": [{ "include": "#expression" }]
+		},
+		"ifStmt": {
+			"begin": "\\bif\\b",
+			"end": "\\}",
+			"patterns": [
+				{ "include": "#whitespace" },
+				{ "include": "#expression" },
+				{ "include": "#statement" },
+				{
+					"begin": "\\belse\\b",
+					"end": "\\}",
+					"patterns": [{ "include": "#statement" }]
+				}
+			]
+		},
+		"returnStmt": {
+			"begin": "\\breturn\\b",
+			"end": "(?=;|\\n|\\})",
+			"patterns": [{ "include": "#expression" }]
+		},
+		"whileStmt": {
+			"begin": "\\bwhile\\b",
+			"end": "\\}",
+			"patterns": [
+				{ "include": "#whitespace" },
+				{ "include": "#expression" },
+				{ "include": "#statement" }
+			]
+		},
+		"block": {
+			"begin": "\\{",
+			"end": "\\}",
+			"patterns": [{ "include": "#whitespace" }, { "include": "#declaration" }]
+		},
+		"expression": {
+			"patterns": [{ "include": "#assignment" }]
+		},
+		"assignment": {
+			"patterns": [
+				{
+					"begin": "\\b[A-Za-z][A-Za-z0-9]*\\b\\s*=",
+					"end": "(?=;|\\n|\\})",
+					"patterns": [{ "include": "#expression" }]
+				},
+				{ "include": "#logic_or" }
+			]
+		},
+		"logic_or": {
+			"patterns": [
+				{ "include": "#logic_and" },
+				{ "match": "\\|\\|", "name": "keyword.operator.logical.or" }
+			]
+		},
+		"logic_and": {
+			"patterns": [
+				{ "include": "#equality" },
+				{ "match": "&&", "name": "keyword.operator.logical.and" }
+			]
+		},
+		"equality": {
+			"patterns": [
+				{ "include": "#comparison" },
+				{ "match": "==|!=", "name": "keyword.operator.comparison" }
+			]
+		},
+		"comparison": {
+			"patterns": [
+				{ "include": "#term" },
+				{ "match": ">|>=|<|<=", "name": "keyword.operator.comparison" }
+			]
+		},
+		"term": {
+			"patterns": [
+				{ "include": "#factor" },
+				{ "match": "\\+|-", "name": "keyword.operator.arithmetic" }
+			]
+		},
+		"factor": {
+			"patterns": [
+				{ "include": "#unary" },
+				{ "match": "\\*|/", "name": "keyword.operator.arithmetic" }
+			]
+		},
+		"unary": {
+			"patterns": [
+				{ "match": "!|-", "name": "keyword.operator.unary" },
+				{ "include": "#call" }
+			]
+		},
+		"call": {
+			"patterns": [
+				{ "include": "#primary" },
+				{ "match": "\\.", "name": "punctuation.accessor.dot" },
+				{ "match": "\\(", "name": "punctuation.section.group.begin" },
+				{ "match": "\\)", "name": "punctuation.section.group.end" }
+			]
+		},
+		"primary": {
+			"patterns": [
+				{
+					"match": "\\b(true|false|nil|self|super)\\b",
+					"name": "constant.language"
+				},
+				{ "match": "\\b[A-Za-z][A-Za-z0-9]*\\b", "name": "identifier" },
+				{ "match": "\\b\\d+(\\.\\d+)?\\b", "name": "constant.numeric" },
+				{ "match": "\"[^\"]*\"", "name": "string.quoted.double" },
+				{
+					"begin": "\\(",
+					"end": "\\)",
+					"patterns": [{ "include": "#expression" }]
+				}
+			]
+		},
+		"parameters": {
+			"begin": "\\(",
+			"end": "\\)",
+			"patterns": [
+				{ "match": "\\b[A-Za-z][A-Za-z0-9]*\\b", "name": "variable.parameter" },
+				{ "include": "#whitespace" }
+			]
+		}
+	}
+}

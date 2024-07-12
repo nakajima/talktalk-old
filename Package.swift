@@ -43,7 +43,16 @@ let package = Package(
 			name: "TalkTalkInterpreter"
 		),
 		.target(
+			name: "TalkTalkCompiler",
+			dependencies: [
+				"TalkTalkSyntax"
+			]
+		),
+		.target(
 			name: "TalkTalkSyntax"
+		),
+		.target(
+			name: "TalkTalkRuntime"
 		),
 		.target(
 			name: "TalkTalkTyper",
@@ -64,6 +73,24 @@ let package = Package(
 			name: "TalkTalkTests",
 			dependencies: [
 				"TalkTalk",
+			],
+			swiftSettings: [
+				.enableUpcomingFeature("SwiftTesting"),
+			]
+		),
+		.testTarget(
+			name: "TalkTalkCompilerTests",
+			dependencies: [
+				"TalkTalkCompiler"
+			],
+			swiftSettings: [
+				.enableUpcomingFeature("SwiftTesting"),
+			]
+		),
+		.testTarget(
+			name: "TalkTalkRuntimeTests",
+			dependencies: [
+				"TalkTalkRuntime"
 			],
 			swiftSettings: [
 				.enableUpcomingFeature("SwiftTesting"),

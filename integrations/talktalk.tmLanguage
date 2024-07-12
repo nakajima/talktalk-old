@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>name</key>
+    <string>TalkTalk</string>
+    <key>scopeName</key>
+    <string>source.tlk</string>
+    <key>fileTypes</key>
+    <array>
+      <string>mylang</string>
+    </array>
+    <key>patterns</key>
+    <array>
+      <!-- Class Declaration -->
+      <dict>
+        <key>name</key>
+        <string>meta.class.TalkTalk</string>
+        <key>begin</key>
+        <string>\bclass\b\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?::\s*([A-Za-z_][A-Za-z0-9_]*))?\s*\{</string>
+        <key>end</key>
+        <string>\}</string>
+        <key>patterns</key>
+        <array>
+          <dict>
+            <key>include</key>
+            <string>#funcDecl</string>
+          </dict>
+        </array>
+      </dict>
+      
+      <!-- Function Declaration -->
+      <dict>
+        <key>name</key>
+        <string>meta.function.TalkTalk</string>
+        <key>begin</key>
+        <string>\bfunc\b\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(</string>
+        <key>end</key>
+        <string>\}</string>
+        <key>patterns</key>
+        <array>
+          <dict>
+            <key>include</key>
+            <string>#block</string>
+          </dict>
+        </array>
+      </dict>
+      
+      <!-- Variable Declaration -->
+      <dict>
+        <key>name</key>
+        <string>meta.var.TalkTalk</string>
+        <key>match</key>
+        <string>\bvar\b\s+([A-Za-z_][A-Za-z0-9_]*)(\s*=\s*[^;]*)?;</string>
+      </dict>
+      
+      <!-- Statements -->
+      <dict>
+        <key>name</key>
+        <string>meta.statement.TalkTalk</string>
+        <key>patterns</key>
+        <array>
+          <dict>
+            <key>include</key>
+            <string>#exprStmt</string>
+          </dict>
+          <dict>
+            <key>include</key>
+            <string>#ifStmt</string>
+          </dict>
+          <dict>
+            <key>include</key>
+            <string>#returnStmt</string>
+          </dict>
+          <dict>
+            <key>include</key>
+            <string>#whileStmt</string>
+          </dict>
+          <dict>
+            <key>include</key>
+            <string>#block</string>
+          </dict>
+        </array>
+      </dict>
+      
+      <!-- Expression Statement -->
+      <dict>
+        <key>name</key>
+        <string>meta.exprStmt.TalkTalk</string>
+        <key>match</key>
+        <string>[^;]+;</string>
+      </dict>
+      
+      <!-- If Statement -->
+      <dict>
+        <key>name</key>
+        <string>meta.ifStmt.TalkTalk</string>
+        <key>begin</key>
+        <string>\bif\b\s*\(</string>
+        <key>end</key>
+        <string>\}</string>
+        <key>patterns</key>
+        <array>
+          <dict>
+            <key>include</key>
+            <string>#statement</string>
+          </dict>
+          <dict>
+            <key>begin</key>
+            <string>\belse\b\s*\{</string>
+            <key>end</key>
+            <string>\}</string>
+            <key>patterns</key>
+            <array>
+              <dict>
+                <key>include</key>
+                <string>#statement</string>
+              </dict>
+            </array>
+          </dict>
+        </array>
+      </dict>
+      
+      <!-- Return Statement -->
+      <dict>
+        <key>name</key>
+        <string>meta.returnStmt.TalkTalk</string>
+        <key>match</key>
+        <string>\breturn\b\s*[^;]*;</string>
+      </dict>
+      
+      <!-- While Statement -->
+      <dict>
+        <key>name</key>
+        <string>meta.whileStmt.TalkTalk</string>
+        <key>begin</key>
+        <string>\bwhile\b\s*\(</string>
+        <key>end</key>
+        <string>\}</string>
+        <key>patterns</key>
+        <array>
+          <dict>
+            <key>include</key>
+            <string>#statement</string>
+          </dict>
+        </array>
+      </dict>
+      
+      <!-- Block -->
+      <dict>
+        <key>name</key>
+        <string>meta.block.TalkTalk</string>
+        <key>begin</key>
+        <string>\{</string>
+        <key>end</key>
+        <string>\}</string>
+        <key>patterns</key>
+        <array>
+          <dict>
+            <key>include</key>
+            <string>#statement</string>
+          </dict>
+        </array>
+      </dict>
+      
+      <!-- Primary -->
+      <dict>
+        <key>name</key>
+        <string>meta.primary.TalkTalk</string>
+        <key>match</key>
+        <string>\b(true|false|nil|this|super)\b|[0-9]+(\.[0-9]+)?|".*?"|[A-Za-z_][A-Za-z0-9_]*</string>
+      </dict>
+      
+    </array>
+    <key>repository</key>
+    <dict>
+      <!-- Function Declaration -->
+      <key>funcDecl</key>
+      <dict>
+        <key>name</key>
+        <string>meta.function.TalkTalk</string>
+        <key>begin</key>
+        <string>\bfunc\b\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(</string>
+        <key>end</key>
+        <string>\}</string>
+        <key>patterns</key>
+        <array>
+          <dict>
+            <key>include</key>
+            <string>#block</string>
+          </dict>
+        </array>
+      </dict>
+      
+      <!-- Statement -->
+      <key>statement</key>
+      <dict>
+        <key>patterns</key>
+        <array>
+          <dict>
+            <key>include</key>
+            <string>#exprStmt</string>
+          </dict>
+          <dict>
+            <key>include</key>
+            <string>#ifStmt</string>
+          </dict>
+          <dict>
+            <key>include</key>
+            <string>#returnStmt</string>
+          </dict>
+          <dict>
+            <key>include</key>
+            <string>#whileStmt</string>
+          </dict>
+          <dict>
+            <key>include</key>
+            <string>#block</string>
+          </dict>
+        </array>
+      </dict>
+      
+      <!-- Expression Statement -->
+      <key>exprStmt</key>
+      <dict>
+        <key>name</key>
+        <string>meta.exprStmt.TalkTalk</string>
+        <key>match</key>
+        <string>[^;]+;</string>
+      </dict>
+      
+      <!-- If Statement -->
+      <key>ifStmt</key>
+      <dict>
+        <key>name</key>
+        <string>meta.ifStmt.TalkTalk</string>
+        <key>begin</key>
+        <string>\bif\b\s*\(</string>
+        <key>end</key>
+        <string>\}</string>
+        <key>patterns</key>
+        <array>
+          <dict>
+            <key>include</key>
+            <string>#statement</string>
+          </dict>
+          <dict>
+            <key>begin</key>
+            <string>\belse\b\s*\{</string>
+            <key>end</key>
+            <string>\}</string>
+            <key>patterns</key>
+            <array>
+              <dict>
+                <key>include</key>
+                <string>#statement</string>
+              </dict>
+            </array>
+          </dict>
+        </array>
+      </dict>
+      
+      <!-- Return Statement -->
+      <key>returnStmt</key>
+      <dict>
+        <key>name</key>
+        <string>meta.returnStmt.TalkTalk</string>
+        <key>match</key>
+        <string>\breturn\b\s*[^;]*;</string>
+      </dict>
+      
+      <!-- While Statement -->
+      <key>whileStmt</key>
+      <dict>
+        <key>name</key>
+        <string>meta.whileStmt.TalkTalk</string>
+        <key>begin</key>
+        <string>\bwhile\b\s*\(</string>
+        <key>end</key>
+        <string>\}</string
